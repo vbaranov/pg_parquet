@@ -37,9 +37,6 @@ pub(crate) static PG_BACKEND_TOKIO_RUNTIME: LazyLock<Runtime> = LazyLock::new(||
 
 #[pg_guard]
 pub extern "C-unwind" fn _PG_init() {
-    if !unsafe { pgrx::pg_sys::process_shared_preload_libraries_in_progress } {
-        panic!("pg_parquet must be loaded via shared_preload_libraries. Add 'pg_parquet' to shared_preload_libraries in postgresql.conf and restart Postgres.");
-    }
 
     unsafe {
         GucRegistry::define_bool_guc(
